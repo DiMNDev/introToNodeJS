@@ -1,3 +1,4 @@
+const Students = require("../models/students");
 const awesomeFunction = (req, res) => {
   res.send("Hello World!");
 };
@@ -23,4 +24,28 @@ const math = (req, res) => {
   res.send(`${num1} + ${num2} = ${result}`);
 };
 
-module.exports = { awesomeFunction, tooeleFunction, crudReport, math };
+const createStudent = async (req, res) => {
+  const student = await Students.create(req.body);
+  if (!student) {
+    throw new Error("Unable to create new student");
+  }
+  res.status(201).json(`Welcome ${student.firstName}`);
+};
+
+const getAllStudents = async (req, res) => {
+  const allStudents = await Students.find().sort("lastName");
+  console.log(allStudents);
+  if (!allStudents) {
+    throw new Error("No one is home");
+  }
+  res.status(200).json({ allStudents });
+};
+
+module.exports = {
+  awesomeFunction,
+  tooeleFunction,
+  crudReport,
+  math,
+  createStudent,
+  getAllStudents,
+};
