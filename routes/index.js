@@ -5,7 +5,8 @@ routes.get("/", myController.awesomeFunction);
 routes.get("/ttech", myController.tooeleFunction);
 routes.get("/crud", myController.crudReport);
 routes.get("/math", myController.math);
+
 routes.post("/create", myController.createStudent);
-routes.get("/create", myController.getAllStudents);
+routes.get("/students", myController.getAllStudents);
 
 module.exports = routes;
