@@ -41,6 +41,44 @@ const getAllStudents = async (req, res) => {
   res.status(200).json({ allStudents });
 };
 
+const getSingleStudent = async (req, res) => {
+  const studentId = req.params.id;
+  if (!studentId) {
+    throw new Error("Please provide student ID");
+  }
+  console.log(studentId);
+  const student = await Students.findById(studentId);
+  if (!student) {
+    throw new Error("Student does not exist");
+  }
+  res.status(200).json({ student });
+};
+
+const updateStudent = async (req, res) => {
+  const {
+    body: { firstName, lastName, email, age, currentCollege },
+    params: { id: studentId },
+  } = req;
+
+  const student = await Students.findOneAndUpdate(
+    { _id: studentId },
+    req.body,
+    { new: true }
+  );
+  res.status(200).json({ student });
+};
+
+const deleteStudent = async (req, res) => {
+  const studentId = req.params.id;
+  console.log(studentId);
+  if (!studentId) {
+    throw new Error("Please provide student ID");
+  }
+  const student = await Students.findByIdAndRemove(studentId);
+
+  res.status(200).send("User has been deleted");
+};
+
 module.exports = {
   awesomeFunction,
   tooeleFunction,
@@ -48,4 +86,7 @@ module.exports = {
   math,
   createStudent,
   getAllStudents,
+  getSingleStudent,
+  updateStudent,
+  deleteStudent,
 };

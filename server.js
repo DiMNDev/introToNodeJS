@@ -5,8 +5,9 @@ const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 const connectDB = require("./db/connect");
 
+// app.use(cors());
 app.use(express.json());
-app.use("/", require("./routes"));
+app.use("/", cors(), require("./routes"));
 
 const start = async () => {
   try {
