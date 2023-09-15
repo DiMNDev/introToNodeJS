@@ -94,13 +94,22 @@ const updateStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
   //#swagger.description = "Delete a student"
   const studentId = req.params.id;
+  const pin = req.body.pin;
+  if (!pin) {
+    throw new Error("Pin is required to delete");
+  }
   if (!studentId) {
     throw new Error("Please provide student ID");
   }
-  const student = await Students.findByIdAndRemove(studentId);
 
-  console.log(`${student.firstName} has been deleted`);
-  res.status(200).send(`${student.firstName} has been deleted`);
+  if (pin === "1993") {
+    const student = await Students.findByIdAndRemove(studentId);
+    console.log(`${student.firstName} has been deleted`);
+    res.status(200).send(`${student.firstName} has been deleted`);
+  } else {
+    console.log(`Invalid pin`);
+    res.status(200).send(`Invalid pin, deletion failed`);
+  }
 };
 
 module.exports = {
